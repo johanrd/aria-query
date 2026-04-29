@@ -10,7 +10,11 @@ const OVERRIDE_NON_INTERACTIVE: Array<string> = ['progressbar'];
 // Roles that are not widget descendants but do accept user input in practice.
 const OVERRIDE_INTERACTIVE: Array<string> = ['toolbar'];
 
-const interactiveRoles: Array<string> = OVERRIDE_INTERACTIVE.slice();
+const interactiveRoles: { [string]: true } = {};
+
+for (let i = 0; i < OVERRIDE_INTERACTIVE.length; i++) {
+  interactiveRoles[OVERRIDE_INTERACTIVE[i]] = true;
+}
 
 for (const [name, def] of rolesMap.entries()) {
   if (
@@ -18,10 +22,10 @@ for (const [name, def] of rolesMap.entries()) {
     OVERRIDE_NON_INTERACTIVE.indexOf(name) === -1 &&
     def.superClass.some((chain) => chain.indexOf('widget') !== -1)
   ) {
-    interactiveRoles.push(name);
+    interactiveRoles[name] = true;
   }
 }
 
 export default function isInteractiveRole(role: string): boolean {
-  return interactiveRoles.indexOf(role) !== -1;
+  return interactiveRoles[role] === true;
 }
