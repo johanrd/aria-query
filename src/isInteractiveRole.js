@@ -10,7 +10,8 @@ const OVERRIDE_NON_INTERACTIVE: Array<string> = ['progressbar'];
 // Roles that are not widget descendants but do accept user input in practice.
 const OVERRIDE_INTERACTIVE: Array<string> = ['toolbar'];
 
-const interactiveRoles: { [string]: true } = {};
+// $FlowIssue { __proto__: null } produces a prototype-less object, which is what we want here.
+const interactiveRoles: { [string]: true } = { __proto__: null };
 
 for (let i = 0; i < OVERRIDE_INTERACTIVE.length; i++) {
   interactiveRoles[OVERRIDE_INTERACTIVE[i]] = true;
